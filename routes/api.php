@@ -13,7 +13,19 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+/**
+ * Routes for Users
+ */
+Route::resource('users', 'User\UserController', ['except' => ['create','edit']]);
+/**
+ * Routes for Categories
+ */
+Route::resource('categories', 'Category\CategoryController', ['except' => ['create','edit']]);
+/**
+ * Routes for Brands
+ */
+Route::resource('brands', 'Brand\BrandController', ['except' => ['create','edit']]);
+/**
+ * Routes for Products
+ */
+Route::resource('products', 'Product\ProductController', ['except' => ['create','edit']]);
