@@ -1,5 +1,6 @@
 <?php
 
+use App\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,11 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug');
+            $table->string('description',1000);
+            $table->string('image');
+            $table->string('status')->default(Category::CATEGORY_ACTIVE);
             $table->timestamps();
         });
     }
