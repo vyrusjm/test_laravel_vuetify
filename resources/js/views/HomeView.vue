@@ -1,4 +1,5 @@
 <template>
+ <v-app>
   <v-card
     class="mx-auto"
     max-width="500"
@@ -68,6 +69,7 @@
       </v-row>
     </v-container>
   </v-card>
+   </v-app>
 </template>
 <script>
   export default {

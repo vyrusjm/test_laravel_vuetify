@@ -1,5 +1,5 @@
 <template>
-<div>
+ <v-app>
 
     <v-toolbar app>
 
@@ -25,7 +25,7 @@
 
     <router-view></router-view>
 
-</div>
+ </v-app>
 </template>
 
 
