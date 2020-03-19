@@ -27,7 +27,23 @@ class ProductController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required',
+            'slug' => 'required',
+            'image' => 'required',
+            'description' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $fields = $request->all();
+        //Str::slug convert the string to lowercase, without accents and separated by hyphens.
+        $fields['slug'] = Str::slug($request->slug);
+        $fields['status'] = Product::PRODUCT_AVAILABLE;
+
+        $product = Product::create($fields);
+
+        return $this->showOne($product, 201);
     }
 
     /**
@@ -51,8 +67,34 @@ class ProductController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $rules = [
+            'slug' => 'unique:categories,slug,'.$product->id,
+        ];
+
+        $this->validate($request, $rules);
+        if($request->has('slug')){
+            //Str::slug convert the string to lowercase, without accents and separated by hyphens.
+            $product->slug = Str::slug($request->slug);
+        }
+        if($request->has('name')){
+            $product->name = $request->name;
+        }
+        if($request->has('image')){
+            $product->image = $request->image;
+        }
+        if($request->has('description')){
+            $product->description = $request->description;
+        }
+        if(!$product->isDirty()){
+            return $this->errorResponse('At least one different value must be specified to update', 422);
+        }
+
+        $product->save();
+        return $this->showOne($product);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -62,6 +104,10 @@ class ProductController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $product->delete();
+
+        return $this->showOne($product);
     }
 }
