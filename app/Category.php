@@ -17,6 +17,17 @@ class Category extends Model
         'image',
         'status'
     ];
+    //transforming the string into lowercase
+    public function setNameAtrribute($value)
+    {
+        $this->attributes['name'] = strtolower($value);
+    }
+    // capitalizing the first letter of each word
+    public function getNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+
     public function isActive()
     {
         return $this->status == Category:: CATEGORY_ACTIVE;

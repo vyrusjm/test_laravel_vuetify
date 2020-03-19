@@ -29,8 +29,24 @@ class User extends Authenticatable
         'admin',
         'verified',
         'verification_token',
-
     ];
+
+    //transforming the string into lowercase
+    public function setNameAtrribute($value)
+    {
+        $this->attributes['name'] = strtolower($value);
+    }
+    // capitalizing the first letter of each word
+    public function getNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+     //transforming the email into lowercase
+     public function setEmailAtrribute($value)
+     {
+         $this->attributes['email'] = strtolower($value);
+     }
+
 
     /**
      * The attributes that should be hidden for arrays.

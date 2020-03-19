@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Brand;
 
-use App\Http\Controllers\Controller;
+use App\Brand;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str as Str;
 
-class BrandController extends Controller
+class BrandController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,17 +16,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $brands = Brand::all();
+        return $this->showAll($brands);
     }
 
     /**
@@ -35,7 +28,22 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required',
+            'slug' => 'required',
+            'image' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $fields = $request->all();
+        //Str::slug convert the string to lowercase, without accents and separated by hyphens.
+        $fields['slug'] = Str::slug($request->slug);
+        $fields['status'] = Brand::BRAND_ACTIVE;
+
+        $brand = Brand::create($fields);
+
+        return $this->showOne($brand, 201);
     }
 
     /**
@@ -44,20 +52,10 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $brand = Brand::where('slug','=', $slug)->firstOrFail();
+        return $this->showOne($brand);
     }
 
     /**
@@ -69,7 +67,30 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $brand = Brand::findOrFail($id);
+
+        $rules = [
+            'slug' => 'unique:brands,slug,'.$brand->id,
+        ];
+
+        $this->validate($request, $rules);
+        if($request->has('slug')){
+            //Str::slug convert the string to lowercase, without accents and separated by hyphens.
+            $brand->slug = Str::slug($request->slug);
+        }
+        if($request->has('name')){
+            $brand->name = $request->name;
+        }
+        if($request->has('image')){
+            $brand->image = $request->image;
+        }
+        if(!$brand->isDirty()){
+            return response()->json(['error' => 'At least one different value must be specified to update',
+            'code' => 422], 422);
+        }
+
+        $brand->save();
+        return $this->showOne($brand);
     }
 
     /**
@@ -80,6 +101,10 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brand = Brand::findOrFail($id);
+
+        $brand->delete();
+
+        return $this->showOne($brand);
     }
 }
