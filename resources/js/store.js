@@ -6,17 +6,32 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state:{
         products: [],
+        cart:[]
 
     },
     getters:{
         products(state) {
             return state.products;
-        },
+        }
     },
     mutations: {
         updateProducts(state, payload) {
             state.products = payload;
         },
+        addToCart(state, item){
+            let found = state.cart.find(product => product.id == item.id);
+
+
+            if(found){
+
+                found.qty++;
+
+            }else{
+
+                state.cart.push(item);
+
+            }
+        }
     },
     actions:{
 
@@ -25,7 +40,7 @@ const store = new Vuex.Store({
             .then((response) => {
                 context.commit('updateProducts', response.data);
             })
-        },
+        }
 
     }
 })

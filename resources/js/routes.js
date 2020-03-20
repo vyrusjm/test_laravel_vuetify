@@ -9,6 +9,7 @@ import Product from './views/ProductDetails'
 import AdminUsers from './views/admin/AdminUsersView'
 import AdminProducts from './views/admin/products/Main'
 import ProductsList from './views/admin/products/List'
+import Checkout from './views/Checkout'
 
 
 export default new VueRouter ({
@@ -39,6 +40,11 @@ export default new VueRouter ({
             path: '/admin/users',
             name: 'admin-users',
             component: AdminUsers
+        },
+        {
+            path: '/checkout',
+            name: 'checkout',
+            component: Checkout
         },
         {
             path: '*',

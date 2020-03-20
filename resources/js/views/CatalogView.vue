@@ -8,10 +8,12 @@
                     <v-hover
                         v-slot:default="{ hover }"
                         open-delay="200"
+                        @click="'product-details/'+product.slug"
+
                     >
                         <v-card
                             :elevation="hover ? 16 : 2"
-                            :loading="loading"
+
                             class="mx-auto my-12"
                             max-width="374"
                         >
@@ -49,6 +51,13 @@
                             small
                             color="primary"
                             class="white--text"
+                            @click="addToCart({
+                                name: product.name,
+                                image: product.image,
+                                price: product.price,
+                                id: product.id,
+                                qty: 1,
+                                })"
                             >
                             ADD TO CART
                             <v-icon right x-small>mdi-plus-thick</v-icon>
@@ -68,28 +77,30 @@
                 </v-col>
             </v-row>
         </v-container>
+        <app-cart></app-cart>
     </v-app>
 </template>
 
 <script>
   export default {
     data: () => ({
-      loading: false,
+
       selection: 1,
+
     }),
     mounted() {
-        // if (this.products.length) {
-        //     return;
-        // }
-
         this.$store.dispatch('getProducts');
     },
 
     methods: {
       reserve () {
-        this.loading = true
+        this.loading = true;
 
-        setTimeout(() => (this.loading = false), 2000)
+        setTimeout(() => (this.loading = false), 2000);
+      },
+      addToCart(data){
+          $('#cartModal').modal('show');
+          this.$store.commit('addToCart', data);
       },
 
     },

@@ -10,7 +10,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn class="ma-2" tile color="primary">
+      <v-btn class="ma-2" tile color="primary" @click="showMyCart">
         <v-icon left>mdi-cart</v-icon> CART
       </v-btn>
 
@@ -39,4 +39,17 @@
       </v-menu>
     </v-app-bar>
   </div>
+
 </template>
+
+<script>
+export default {
+    name:'app-bar',
+
+    methods:{
+        showMyCart(){
+            $('#cartModal').modal('show');
+        }
+    }
+}
+</script>

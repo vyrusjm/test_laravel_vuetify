@@ -18,6 +18,9 @@ Vue.component('app-footer', require('./components/Footer.vue').default);
 
 Vue.component('app-bar', require('./components/AppBar.vue').default);
 
+Vue.component('app-cart', require('./components/Cart.vue').default);
+
+
 
 import router from './routes'
 
