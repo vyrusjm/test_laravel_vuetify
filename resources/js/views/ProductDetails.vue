@@ -8,6 +8,9 @@
                         outlined
                         tile
                     >
+                    <router-link :to="{ name: 'catalogPage' }">
+                      <v-icon right>mdi-chevron-left</v-icon>  Back
+                    </router-link>
                        <v-img :src="'/images/products/'+product.image" aspect-ratio="1.7"></v-img>
                     </v-card>
                 </v-col>
@@ -34,17 +37,25 @@
                             <v-select
                             :items="items"
                             label="Quantity"
+                            v-model="qty"
                             outlined
                             ></v-select>
                         </v-col>
 
                         <v-card-actions>
                             <v-container class="ma-0 pa-0">
-                                <v-btn  tile color="primary">
+                                <v-btn  tile color="primary"
+                                @click="addToCart({
+                                name: product.name,
+                                image: product.image,
+                                price: product.price,
+                                id: product.id,
+                                qty: qty,
+                                })">
                                     ADD TO CART
                                     <v-icon right>mdi-plus</v-icon>
                                 </v-btn>
-                                <v-btn tile outlined color="primary">
+                                <v-btn tile outlined color="primary" @click="goToCheckout">
                                     CHECKOUT
                                     <v-icon right>mdi-chevron-right</v-icon>
                                 </v-btn>
@@ -61,6 +72,7 @@
                 </v-col>
             </v-row>
         </v-container>
+        <app-cart></app-cart>
     </v-app>
 </template>
 <script>
@@ -69,6 +81,7 @@
     data: () => ({
       items: [1, 2, 3, 4,5,6],
       product: null,
+      qty: 1,
     }),
 
     created() {
@@ -93,6 +106,16 @@
             const max = 5;
             return Math.random() * (max - min) + min;
         }
+    },
+    methods:{
+        goToCheckout(){
+            $('#cartModal').modal('hide');
+            this.$router.push({name: 'checkout'})
+        },
+        addToCart(data){
+          $('#cartModal').modal('show');
+          this.$store.commit('addToCart', data);
+      },
     }
   }
 </script>

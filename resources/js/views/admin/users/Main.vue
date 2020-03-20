@@ -8,6 +8,6 @@
 </template>
 <script>
     export default {
-        name: 'admin-main'
+        name: 'admin-users'
     }
 </script>

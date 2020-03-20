@@ -13,8 +13,6 @@ class User extends Authenticatable
 
     const USER_ADMIN = 'true';
     const USER_REGULAR = 'false';
-    const USER_VERIFIED = '1';
-    const USER_NOT_VERIFIED = '0';
 
     /**
      * The attributes that are mass assignable.
@@ -27,8 +25,6 @@ class User extends Authenticatable
         'password',
         'phone',
         'admin',
-        'verified',
-        'verification_token',
     ];
 
     //transforming the string into lowercase
@@ -56,19 +52,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'verification_token'
     ];
 
-    public function isVerified()
-    {
-        return $this->verified == User::USER_VERIFIED;
-    }
     public function isAdmin()
     {
         return $this->admin == User::USER_ADMIN;
-    }
-    public static function generateVerificationToken()
-    {
-        return Str::random(56);
     }
 }

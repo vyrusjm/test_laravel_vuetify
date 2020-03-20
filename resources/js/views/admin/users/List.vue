@@ -8,7 +8,7 @@
         >
             <template v-slot:top>
             <v-toolbar flat color="white">
-                <v-toolbar-title>Products</v-toolbar-title>
+                <v-toolbar-title>Users</v-toolbar-title>
                 <v-divider
                 class="mx-4"
                 inset
@@ -17,7 +17,7 @@
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">New Product</v-btn>
+                    <v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
                 </template>
                 <v-card>
                     <v-card-title>
@@ -27,31 +27,21 @@
                     <v-card-text>
                     <v-container>
                         <v-row>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.name" label="Product name"></v-text-field>
+                        <v-col cols="12" sm="12">
+                            <v-text-field v-model="editedItem.name" label="User name"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.slug" label="Slug"></v-text-field>
+                        <v-col cols="12" sm="12">
+                            <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.price" label="Price"></v-text-field>
+                        <v-col cols="12" sm="12">
+                            <v-text-field v-model="editedItem.phone" label="Phone"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.stock" label="Stock"></v-text-field>
+                        <v-col cols="12" sm="12">
+                            <v-text-field v-model="editedItem.password" label="Password"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
+                        <v-col cols="12" sm="12">
+                            <v-text-field v-model="editedItem.password_confirmation" label="Confirm password"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="12" >
-                            <v-file-input
-                                v-model="editedItem.image"
-                                accept="image/png, image/jpeg"
-                                placeholder="Pick a image for product"
-                                prepend-icon="mdi-camera"
-                                label="Image"
-                            ></v-file-input>
-                        </v-col>
-
                         </v-row>
                     </v-container>
                     </v-card-text>
@@ -94,7 +84,7 @@
 </template>
 <script>
   export default {
-      name: 'list-products',
+      name: 'list-users',
     data () {
 
       return {
@@ -107,37 +97,30 @@
             sortable: false,
             value: 'name',
           },
-          { text: 'Slug', value: 'slug' },
-          { text: 'Price', value: 'price' },
-          { text: 'stock', value: 'stock' },
+          { text: 'email', value: 'email' },
+          { text: 'Phone', value: 'phone' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
         editedIndex: -1,
         editedItem: {
             name: '',
-            slug: '',
-            price: 0,
-            stock: 0,
-            description :'',
-            image: '',
+            email: '',
+            phone: 0
 
         },
         defaultItem: {
             name: '',
-            slug: '',
-            price: 0,
-            stock: 0,
-            description :'',
-            image: '',
+            email: '',
+            phone: 0
         },
       }
     },
     computed: {
         desserts() {
-            return this.$store.getters.products.data;
+            return this.$store.getters.users.data;
         },
         formTitle () {
-        return this.editedIndex === -1 ? 'New Product' : 'Edit Product'
+        return this.editedIndex === -1 ? 'New User' : 'Edit User'
       },
     },
     watch: {
@@ -155,9 +138,9 @@
       },
       saveEditItem(editedItem){
         const index = editedItem.id;
-        axios.put('/api/products/'+index, editedItem)
+        axios.put('/api/users/'+index, editedItem)
         .then((response) => {
-            this.$store.dispatch('getProducts');
+            this.$store.dispatch('getUsers');
             this.close();
         })
         .catch((error) => {
@@ -167,9 +150,9 @@
 
       deleteItem (item) {
         const index = item.id;
-        confirm('Are you sure you want to delete this item?') && axios.delete('/api/products/'+index)
+        confirm('Are you sure you want to delete this item?') && axios.delete('/api/users/'+index)
         .then((response) => {
-            this.$store.dispatch('getProducts');
+            this.$store.dispatch('getUsers');
             this.close();
         })
         .catch((error) => {
@@ -186,9 +169,9 @@
       },
 
       save () {
-        axios.post('/api/products', this.editedItem)
+        axios.post('/api/users', this.editedItem)
         .then((response) => {
-            this.$store.dispatch('getProducts');
+            this.$store.dispatch('getUsers');
             this.close();
         })
         .catch((error) => {
@@ -197,7 +180,7 @@
       },
     },
     mounted() {
-        this.$store.dispatch('getProducts');
+        this.$store.dispatch('getUsers');
     },
   }
 </script>

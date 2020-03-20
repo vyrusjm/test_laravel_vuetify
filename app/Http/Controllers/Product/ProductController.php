@@ -84,11 +84,18 @@ class ProductController extends ApiController
         if($request->has('name')){
             $product->name = $request->name;
         }
+
         if($request->has('image')){
             $product->image = $request->image;
         }
         if($request->has('description')){
             $product->description = $request->description;
+        }
+        if($request->has('stock')){
+            $product->stock = $request->stock;
+        }
+        if($request->has('price')){
+            $product->price = $request->price;
         }
         if(!$product->isDirty()){
             return $this->errorResponse('At least one different value must be specified to update', 422);

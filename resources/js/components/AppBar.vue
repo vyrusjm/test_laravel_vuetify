@@ -31,6 +31,11 @@
             <v-list-item-title>Catalog</v-list-item-title>
           </v-list-item>
           <v-list-item
+            :to="'/admin/users'"
+          >
+            <v-list-item-title>Admin users</v-list-item-title>
+          </v-list-item>
+          <v-list-item
             :to="'/admin/products'"
           >
             <v-list-item-title>Admin Products</v-list-item-title>

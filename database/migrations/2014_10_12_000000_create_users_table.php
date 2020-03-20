@@ -22,8 +22,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('admin')->default(User::USER_REGULAR);
             $table->string('phone');
-            $table->string('verified')->default(User::USER_NOT_VERIFIED);
-            $table->string('verification_token')->nullable();
             $table->timestamps();
         });
     }

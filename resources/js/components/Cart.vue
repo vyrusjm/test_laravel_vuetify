@@ -16,7 +16,7 @@
                                 <div class="col-md-3">
                                     <v-img
                                         height="80"
-                                        :src="'images/products/'+item.image"
+                                        :src="'/images/products/'+item.image"
                                     ></v-img>
                                 </div>
                                 <div class="col-md-3">
