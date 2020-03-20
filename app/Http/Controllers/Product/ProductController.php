@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Product;
 use App\Product;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class ProductController extends ApiController
 {
@@ -52,9 +54,10 @@ class ProductController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('slug','=', $slug)->first();
+
         return $this->showOne($product);
     }
 
@@ -70,7 +73,7 @@ class ProductController extends ApiController
         $product = Product::findOrFail($id);
 
         $rules = [
-            'slug' => 'unique:categories,slug,'.$product->id,
+            'slug' => 'unique:products,slug,'.$product->id,
         ];
 
         $this->validate($request, $rules);

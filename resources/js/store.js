@@ -5,21 +5,29 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state:{
-        count:0
+        products: [],
+
     },
     getters:{
-
+        products(state) {
+            return state.products;
+        },
     },
     mutations: {
-       incement(state) {
-           state.count++
-       } ,
-
-       decremente(state){
-           state.count--
-       }
+        updateProducts(state, payload) {
+            state.products = payload;
+        },
     },
-    actions:{}
+    actions:{
+
+        getProducts(context) {
+            axios.get('/api/products')
+            .then((response) => {
+                context.commit('updateProducts', response.data);
+            })
+        },
+
+    }
 })
 
 export default store

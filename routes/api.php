@@ -17,14 +17,7 @@ use Illuminate\Support\Facades\Route;
  * Routes for Users
  */
 Route::resource('users', 'User\UserController', ['except' => ['create','edit']]);
-/**
- * Routes for Categories
- */
-Route::resource('categories', 'Category\CategoryController', ['except' => ['create','edit']]);
-/**
- * Routes for Brands
- */
-Route::resource('brands', 'Brand\BrandController', ['except' => ['create','edit']]);
+
 /**
  * Routes for Products
  */

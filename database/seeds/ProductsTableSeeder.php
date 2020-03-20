@@ -24,13 +24,11 @@ class ProductsTableSeeder extends Seeder
                 'stock' => '5',
                 'image' => 'man-01-a.jpg',
                 'status' => Product::PRODUCT_AVAILABLE,
-                'category_id' => '2',
-                'brand_id' => '1'
             ],
             [
                 'id' => '2',
-                'name' => 'Hawkers Sky Warwick Carbon Black',
-                'slug' => 'hawkers-sky-warwick-carbon-black',
+                'name' => 'Hawkers Sky Warwick Carbon',
+                'slug' => 'hawkers-sky-warwick-carbon',
                 'description' => 'This model combines a frame in a matte black finish with blue mirror lenses for a more daring look, perfect for every day no matter where you are.
                 TR18 Micas with the Eastman US seal, one of the world leaders in copolyester technology. Eco-friendly and provides a unique balance of clarity and strength
                 Category 3 and UV400 protection micas offer superior anti-glare protection
@@ -42,8 +40,6 @@ class ProductsTableSeeder extends Seeder
                 'stock' => '2',
                 'image' => 'man-02-a.jpg',
                 'status' => Product::PRODUCT_AVAILABLE,
-                'category_id' => '2',
-                'brand_id' => '2'
             ],
             [
                 'id' => '3',
@@ -54,8 +50,6 @@ class ProductsTableSeeder extends Seeder
                 'stock' => '1',
                 'image' => 'woman-01-a.jpg',
                 'status' => Product::PRODUCT_AVAILABLE,
-                'category_id' => '1',
-                'brand_id' => '3'
             ],
             [
                 'id' => '4',
@@ -66,8 +60,6 @@ class ProductsTableSeeder extends Seeder
                 'stock' => '3',
                 'image' => 'woman-02-a.jpg',
                 'status' => Product::PRODUCT_AVAILABLE,
-                'category_id' => '1',
-                'brand_id' => '5'
             ],
             [
                 'id' => '5',
@@ -78,8 +70,6 @@ class ProductsTableSeeder extends Seeder
                 'stock' => '10',
                 'image' => 'kids-01-a.jpg',
                 'status' => Product::PRODUCT_AVAILABLE,
-                'category_id' => '3',
-                'brand_id' => '4'
             ],
             [
                 'id' => '6',
@@ -90,8 +80,6 @@ class ProductsTableSeeder extends Seeder
                 'stock' => '10',
                 'image' => 'kids-02-a.jpg',
                 'status' => Product::PRODUCT_AVAILABLE,
-                'category_id' => '3',
-                'brand_id' => '4'
             ],
         ]);
     }
