@@ -37,8 +37,6 @@ class UserController extends ApiController
 
         $fields = $request->all();
         $fields['password'] = bcrypt($request->password);
-        $fields['verified'] = User::USER_NOT_VERIFIED;
-        $fields['verification_token'] = User::generateVerificationToken();
         $fields['admin'] = User::USER_REGULAR;
 
         $user = User::create($fields);
@@ -79,8 +77,6 @@ class UserController extends ApiController
             $user->name = $request->name;
         }
         if($request->has('email') && $user->email != $request->email) {
-            $user->verified = User::USER_NOT_VERIFIED;
-            $user->verification_token = User::generateVerificationToken();
             $user->email = $request->email;
         }
         if($request->has('password')){
@@ -92,7 +88,6 @@ class UserController extends ApiController
         if(!$user->isDirty()){
             return $this->errorResponse('At least one different value must be specified to update', 422);
         }
-
         $user->save();
         return $this->showOne($user);
     }

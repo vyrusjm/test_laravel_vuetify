@@ -6,7 +6,8 @@ Vue.use(VueRouter)
 
 import Catalog from './views/CatalogView'
 import Product from './views/ProductDetails'
-import AdminUsers from './views/admin/AdminUsersView'
+import AdminUsers from './views/admin/users/Main'
+import UsersList from './views/admin/users/List'
 import AdminProducts from './views/admin/products/Main'
 import ProductsList from './views/admin/products/List'
 import Checkout from './views/Checkout'
@@ -38,8 +39,14 @@ export default new VueRouter ({
         },
         {
             path: '/admin/users',
-            name: 'admin-users',
-            component: AdminUsers
+            component: AdminUsers,
+            children: [
+                {
+                    path: '/',
+                    name:'list-users',
+                    component: UsersList
+                },
+            ]
         },
         {
             path: '/checkout',

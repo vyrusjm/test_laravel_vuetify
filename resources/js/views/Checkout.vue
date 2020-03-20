@@ -241,6 +241,7 @@
                 </v-stepper-content>
             </v-stepper>
         </v-container>
+        <app-cart></app-cart>
     </v-app>
 </template>
 <script>
