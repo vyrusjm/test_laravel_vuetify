@@ -28,19 +28,43 @@
                     <v-container>
                         <v-row>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.name" label="Product name"></v-text-field>
+                            <v-text-field
+                                v-model="editedItem.name"
+                                label="Product name"
+                            >
+                            </v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.slug" label="Slug"></v-text-field>
+                            <v-text-field
+                                v-model="editedItem.slug"
+                                label="Slug"
+                            >
+                            </v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.price" label="Price"></v-text-field>
+                            <v-text-field
+                                v-model="editedItem.price"
+                                label="Price"
+                                prefix="$"
+                                type="number"
+                            >
+                            </v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="editedItem.stock" label="Stock"></v-text-field>
+                            <v-text-field
+                                v-model="editedItem.stock"
+                                label="Stock"
+                                suffix="pcs"
+                                type="number"
+                            >
+                            </v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
+                            <v-text-field
+                                v-model="editedItem.description"
+                                label="Description"
+                            >
+                            </v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" >
                             <v-file-input
@@ -100,6 +124,7 @@
       return {
         dialog: false,
         search: '',
+
         headers: [
           {
             text: 'Name',

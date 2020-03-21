@@ -2724,6 +2724,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'list-products',
   data: function data() {
@@ -2955,12 +2979,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'list-users',
   data: function data() {
     return {
       dialog: false,
       search: '',
+      show: false,
+      show2: false,
+      rules: {
+        required: function required(value) {
+          return !!value || 'Required.';
+        },
+        min: function min(v) {
+          return v.length >= 8 || 'Min 8 characters';
+        },
+        minPhone: function minPhone(v) {
+          return v.length <= 10 || 'Max 10 characters';
+        },
+        email: function email(value) {
+          var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || 'Invalid e-mail.';
+        }
+      },
       headers: [{
         text: 'Name',
         align: 'start',
@@ -2981,12 +3059,14 @@ __webpack_require__.r(__webpack_exports__);
       editedItem: {
         name: '',
         email: '',
-        phone: 0
+        phone: '',
+        password: '',
+        password_confirmation: ''
       },
       defaultItem: {
         name: '',
         email: '',
-        phone: 0
+        phone: ''
       }
     };
   },
@@ -2996,6 +3076,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     formTitle: function formTitle() {
       return this.editedIndex === -1 ? 'New User' : 'Edit User';
+    },
+    passwordConfirmationRule: function passwordConfirmationRule() {
+      var _this = this;
+
+      return function () {
+        return _this.editedItem.password === _this.editedItem.password_confirmation || 'Password must match confirmation';
+      };
     }
   },
   watch: {
@@ -3010,22 +3097,10 @@ __webpack_require__.r(__webpack_exports__);
       this.dialog = true;
     },
     saveEditItem: function saveEditItem(editedItem) {
-      var _this = this;
+      var _this2 = this;
 
       var index = editedItem.id;
       axios.put('/api/users/' + index, editedItem).then(function (response) {
-        _this.$store.dispatch('getUsers');
-
-        _this.close();
-      })["catch"](function (error) {
-        console.log(error.response);
-      });
-    },
-    deleteItem: function deleteItem(item) {
-      var _this2 = this;
-
-      var index = item.id;
-      confirm('Are you sure you want to delete this item?') && axios["delete"]('/api/users/' + index).then(function (response) {
         _this2.$store.dispatch('getUsers');
 
         _this2.close();
@@ -3033,22 +3108,34 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response);
       });
     },
-    close: function close() {
+    deleteItem: function deleteItem(item) {
       var _this3 = this;
+
+      var index = item.id;
+      confirm('Are you sure you want to delete this item?') && axios["delete"]('/api/users/' + index).then(function (response) {
+        _this3.$store.dispatch('getUsers');
+
+        _this3.close();
+      })["catch"](function (error) {
+        console.log(error.response);
+      });
+    },
+    close: function close() {
+      var _this4 = this;
 
       this.dialog = false;
       setTimeout(function () {
-        _this3.editedItem = Object.assign({}, _this3.defaultItem);
-        _this3.editedIndex = -1;
+        _this4.editedItem = Object.assign({}, _this4.defaultItem);
+        _this4.editedIndex = -1;
       }, 300);
     },
     save: function save() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.post('/api/users', this.editedItem).then(function (response) {
-        _this4.$store.dispatch('getUsers');
+        _this5.$store.dispatch('getUsers');
 
-        _this4.close();
+        _this5.close();
       })["catch"](function (error) {
         console.log(error.response);
       });
@@ -40818,7 +40905,11 @@ var render = function() {
                                           },
                                           [
                                             _c("v-text-field", {
-                                              attrs: { label: "Price" },
+                                              attrs: {
+                                                label: "Price",
+                                                prefix: "$",
+                                                type: "number"
+                                              },
                                               model: {
                                                 value: _vm.editedItem.price,
                                                 callback: function($$v) {
@@ -40846,7 +40937,11 @@ var render = function() {
                                           },
                                           [
                                             _c("v-text-field", {
-                                              attrs: { label: "Stock" },
+                                              attrs: {
+                                                label: "Stock",
+                                                suffix: "pcs",
+                                                type: "number"
+                                              },
                                               model: {
                                                 value: _vm.editedItem.stock,
                                                 callback: function($$v) {
@@ -41202,7 +41297,19 @@ var render = function() {
                                           { attrs: { cols: "12", sm: "12" } },
                                           [
                                             _c("v-text-field", {
-                                              attrs: { label: "Email" },
+                                              staticClass:
+                                                "input-group--focused",
+                                              attrs: {
+                                                rules: [_vm.rules.email],
+                                                label: "Email"
+                                              },
+                                              on: {
+                                                "click:append": function(
+                                                  $event
+                                                ) {
+                                                  _vm.show = !_vm.show
+                                                }
+                                              },
                                               model: {
                                                 value: _vm.editedItem.email,
                                                 callback: function($$v) {
@@ -41224,7 +41331,11 @@ var render = function() {
                                           { attrs: { cols: "12", sm: "12" } },
                                           [
                                             _c("v-text-field", {
-                                              attrs: { label: "Phone" },
+                                              attrs: {
+                                                rules: [_vm.rules.minPhone],
+                                                label: "Phone",
+                                                type: "number"
+                                              },
                                               model: {
                                                 value: _vm.editedItem.phone,
                                                 callback: function($$v) {
@@ -41246,7 +41357,26 @@ var render = function() {
                                           { attrs: { cols: "12", sm: "12" } },
                                           [
                                             _c("v-text-field", {
-                                              attrs: { label: "Password" },
+                                              staticClass:
+                                                "input-group--focused",
+                                              attrs: {
+                                                "append-icon": _vm.show
+                                                  ? "mdi-eye"
+                                                  : "mdi-eye-off",
+                                                rules: [_vm.rules.min],
+                                                type: _vm.show
+                                                  ? "text"
+                                                  : "password",
+                                                hint: "At least 8 characters",
+                                                label: "Password"
+                                              },
+                                              on: {
+                                                "click:append": function(
+                                                  $event
+                                                ) {
+                                                  _vm.show = !_vm.show
+                                                }
+                                              },
                                               model: {
                                                 value: _vm.editedItem.password,
                                                 callback: function($$v) {
@@ -41269,8 +41399,28 @@ var render = function() {
                                           { attrs: { cols: "12", sm: "12" } },
                                           [
                                             _c("v-text-field", {
+                                              staticClass:
+                                                "input-group--focused",
                                               attrs: {
-                                                label: "Confirm password"
+                                                "append-icon": _vm.show2
+                                                  ? "mdi-eye"
+                                                  : "mdi-eye-off",
+                                                rules: [
+                                                  _vm.rules.min,
+                                                  _vm.passwordConfirmationRule
+                                                ],
+                                                type: _vm.show2
+                                                  ? "text"
+                                                  : "password",
+                                                hint: "At least 8 characters",
+                                                label: "Password Confirmation"
+                                              },
+                                              on: {
+                                                "click:append": function(
+                                                  $event
+                                                ) {
+                                                  _vm.show2 = !_vm.show2
+                                                }
                                               },
                                               model: {
                                                 value:
