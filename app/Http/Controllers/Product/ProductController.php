@@ -29,6 +29,9 @@ class ProductController extends ApiController
      */
     public function store(Request $request)
     {
+
+
+
         $rules = [
             'name' => 'required',
             'slug' => 'required',
@@ -38,11 +41,25 @@ class ProductController extends ApiController
 
         $this->validate($request, $rules);
 
+        // image
+        $exploded = explode(',', $request->image);
+        $decoded = base64_decode($exploded[1]);
+        if (Str::contains($exploded[0], 'jpeg'))
+            $extension = 'jpg';
+        else
+            $extension = 'png';
+        $fileName = Str::random().'.'.$extension;
+
+        $path = public_path().'/images/products/'.$fileName;
+
+        file_put_contents($path, $decoded);
+
         $fields = $request->all();
+
         //Str::slug convert the string to lowercase, without accents and separated by hyphens.
         $fields['slug'] = Str::slug($request->slug);
         $fields['status'] = Product::PRODUCT_AVAILABLE;
-
+        $fields['image'] =  $fileName;
         $product = Product::create($fields);
 
         return $this->showOne($product, 201);
@@ -85,8 +102,24 @@ class ProductController extends ApiController
             $product->name = $request->name;
         }
 
-        if($request->has('image')){
-            $product->image = $request->image;
+        if( $request->image != $product->image){
+
+            $exploded = explode(',', $request->image);
+            $decoded = base64_decode($exploded[1]);
+            if (Str::contains($exploded[0], 'jpeg'))
+                $extension = 'jpg';
+            else
+                $extension = 'png';
+            $fileName = Str::random().'.'.$extension;
+
+            $path = public_path().'/images/products/'.$fileName;
+
+            file_put_contents($path, $decoded);
+
+            $product->image = $fileName;
+
+        }else{
+            $product->image = $product->image;
         }
         if($request->has('description')){
             $product->description = $request->description;

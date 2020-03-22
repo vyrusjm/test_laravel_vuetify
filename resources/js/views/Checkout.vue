@@ -22,34 +22,10 @@
 
                 <v-stepper-content step="1">
                 <v-card class="mb-12" height="500px">
-                    <v-list>
-                        <v-list-item
-                            v-for="item in this.$store.state.cart" :key="item.index"
-                        >
-                            <v-list-item-avatar>
-                                <v-img height="40" :src="'images/products/'+item.image"></v-img>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <v-list-item-title v-text="item.name"></v-list-item-title>
-                            </v-list-item-content>
-                            <v-list-item-content>
-                                <h6>Quantity: {{item.qty}}</h6>
-                            </v-list-item-content>
-                            <v-spacer></v-spacer>
-                            <v-list-item-content>
-                                <h6>Price Uni: $ {{item.price}} USD</h6>
-                            </v-list-item-content>
-                            <v-list-item-content>
-                                <h6>Price total: $ {{item.price}} USD</h6>
-                            </v-list-item-content>
-
-                        </v-list-item>
-                    </v-list>
-
-
+                    <list-checkout></list-checkout>
                 </v-card>
                 <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
-                <v-btn text>Cancel</v-btn>
+                <v-btn @click="goToHome()" text>Cancel</v-btn>
                 </v-stepper-content>
 
                 <v-stepper-step :complete="e6 > 2" step="2">Shipping address</v-stepper-step>
@@ -102,6 +78,7 @@
                         md="4"
                         >
                         <v-text-field
+                            v-mask="maskZip"
                             v-model="zip"
                             label="Zip"
                             required
@@ -135,17 +112,20 @@
                         >
                         <v-text-field
                             v-model="cardNumber"
-                            label="Number"
+                            v-mask="maskNumberCard"
+                            label="Card number"
                             required
-                        ></v-text-field>
+                        >
+                        </v-text-field>
                         </v-col>
                         <v-col
                         cols="12"
                         md="4"
                         >
                         <v-text-field
+                            v-mask="maskDateCard"
                             v-model="cardDate"
-                            label="Year"
+                            label="Date"
                             required
                         ></v-text-field>
                         </v-col>
@@ -154,6 +134,7 @@
                         md="4"
                         >
                         <v-text-field
+                            v-mask="maskCvCard"
                             v-model="cardCV"
                             label="CV"
                             required
@@ -168,35 +149,13 @@
 
                 <v-stepper-step step="4">Confirm Order</v-stepper-step>
                 <v-stepper-content step="4">
-                <v-card class="mb-12" height="600px">
+                <v-card class="mb-12" height="1000px">
                     <v-row>
                         <v-col cols="12">
                             <h4>Items</h4>
                         </v-col>
                         <v-col cols="12">
-                            <v-list>
-                        <v-list-item
-                            v-for="item in this.$store.state.cart" :key="item.index"
-                        >
-                            <v-list-item-avatar>
-                                <v-img height="40" :src="'images/products/'+item.image"></v-img>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <v-list-item-title v-text="item.name"></v-list-item-title>
-                            </v-list-item-content>
-                            <v-list-item-content>
-                                <h6>Quantity: {{item.qty}}</h6>
-                            </v-list-item-content>
-                            <v-spacer></v-spacer>
-                            <v-list-item-content>
-                                <h6>Price Uni: $ {{item.price}} USD</h6>
-                            </v-list-item-content>
-                            <v-list-item-content>
-                                <h6>Price total: $ {{item.price}} USD</h6>
-                            </v-list-item-content>
-
-                            </v-list-item>
-                        </v-list>
+                            <list-checkout></list-checkout>
                         </v-col>
                         <v-col cols="12">
                             <h4>Shipping address</h4>
@@ -220,36 +179,38 @@
                             <h4>Payment methods</h4>
                         </v-col>
                         <v-col cols="12" md="6">
-                            <p>Name: {{cardName}}</p>
+                            <p>Name in card: {{cardName}}</p>
                         </v-col>
                         <v-col cols="12" md="6">
-                            <p>Number: {{cardNumber}}</p>
+                            <p>Card number: {{cardNumber}}</p>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <p>Year: {{cardDate}}</p>
+                            <p>Date: {{cardDate}}</p>
                         </v-col>
                         <v-col cols="12" md="4">
                             <p>Zip: {{cardCV}}</p>
                         </v-col>
                     </v-row>
-
-
-
                 </v-card>
-                <v-btn color="primary" >Process payment</v-btn>
+                <v-btn @click="alertSuccess()" color="primary" >Process payment</v-btn>
                 <v-btn text @click="e6 = 3">Back</v-btn>
                 </v-stepper-content>
             </v-stepper>
         </v-container>
-        <app-cart></app-cart>
     </v-app>
 </template>
 <script>
+
+
   export default {
       name:'checkout',
     data () {
 
       return {
+        maskZip: '#####',
+        maskNumberCard: '####-####-####-####',
+        maskDateCard: '##/####',
+        maskCvCard: '###',
         e6: 1,
         streetOne: '',
         streetTwo: '',
@@ -262,5 +223,17 @@
         cardCV:'',
       }
     },
+    methods:{
+        goToHome(){
+            this.$router.push({name: 'catalogPage'})
+        },
+        alertSuccess(){
+            this.$store.commit('resetCart');
+            this.$router.push({name: 'catalogPage'})
+
+
+
+        }
+    }
   }
 </script>
