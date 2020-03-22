@@ -15,6 +15,21 @@ class UserController extends ApiController
      */
     public function index()
     {
+    /**
+    * @OA\Get(
+    *     path="/api/users",
+    *       tags={"users"},
+    *     summary="shows the complete list of users",
+    *     @OA\Response(
+    *         response=200,
+    *         description="Show list of users."
+    *     ),
+    *     @OA\Response(
+    *         response="default",
+    *         description="An error has occurred."
+    *     )
+    * )
+    */
         $users = User::all();
         return $this->showAll($users);
     }
@@ -27,6 +42,84 @@ class UserController extends ApiController
      */
     public function store(Request $request)
     {
+        /**
+    * @OA\Post(
+    *     path="/api/users",
+    *       tags={"users"},
+    *     summary="Create a user",
+    *   @OA\Parameter(
+    *         name="name",
+    *         in="query",
+    *         description="The user name, and unique",
+    *         required=true,
+    *         @OA\Schema(
+    *           type="string",
+    *         ),
+    *         style="form"
+    *     ),
+    *   @OA\Parameter(
+    *         name="email",
+    *         in="query",
+    *         description="The user email",
+    *         required=true,
+    *         @OA\Schema(
+    *           type="email",
+    *         ),
+    *         style="form"
+    *     ),
+    *   @OA\Parameter(
+    *         name="password",
+    *         in="query",
+    *         description="Encerypt password, min 8 characters",
+    *         required=true,
+    *         @OA\Schema(
+    *           type="string",
+    *         ),
+    *         style="form"
+    *     ),
+    *   @OA\Parameter(
+    *         name="password_confirmation",
+    *         in="query",
+    *         description="Macth password and password confirmation",
+    *         required=true,
+    *         @OA\Schema(
+    *           type="string",
+    *         ),
+    *         style="form"
+    *     ),
+    *   @OA\Parameter(
+    *         name="phone",
+    *         in="query",
+    *         description="Phone number",
+    *         required=false,
+    *         @OA\Schema(
+    *           type="integer",
+    *         ),
+    *         style="form"
+    *     ),
+    *   @OA\Parameter(
+    *         name="admin",
+    *         in="path",
+    *         description="For default is USER REGULAR",
+    *         required=false,
+    *         @OA\Schema(
+    *           type="string",
+    *         ),
+    *     ),
+    *   @OA\Response(
+    *         response=200,
+    *         description="successful operation."
+    *     ),
+    *   @OA\Response(
+    *         response=405,
+    *         description="Invalid input."
+    *     ),
+    *     @OA\Response(
+    *         response="default",
+    *         description="An error has occurred."
+    *     )
+    * )
+    */
         $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -100,6 +193,39 @@ class UserController extends ApiController
      */
     public function destroy($id)
     {
+    /**
+    * @OA\Delete(
+    *     path="/api/users/{id}",
+    *       tags={"users"},
+    *     summary="delete a specific user",
+    *   @OA\Parameter(
+    *         name="id",
+    *         in="query",
+    *         description="The user id",
+    *         required=true,
+    *         @OA\Schema(
+    *           type="string",
+    *         ),
+    *         style="form"
+    *     ),
+    *      @OA\Response(
+    *         response=200,
+    *         description="successful operation."
+    *     ),
+    *   @OA\Response(
+    *         response=404,
+    *         description="user no found."
+    *     ),
+    *   @OA\Response(
+    *         response=405,
+    *         description="Invalid input."
+    *     ),
+    *     @OA\Response(
+    *         response="default",
+    *         description="An error has occurred."
+    *     )
+    * )
+    */
         $user = User::findOrFail($id);
 
         $user->delete();

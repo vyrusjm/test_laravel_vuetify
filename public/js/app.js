@@ -2239,8 +2239,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -39897,7 +39895,6 @@ var render = function() {
                                 {
                                   staticClass: "mx-auto my-12",
                                   attrs: {
-                                    to: "product-details/" + product.slug,
                                     elevation: hover ? 16 : 2,
                                     "max-width": "374"
                                   }
