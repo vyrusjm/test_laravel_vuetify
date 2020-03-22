@@ -8,10 +8,9 @@
                     <v-hover
                         v-slot:default="{ hover }"
                         open-delay="200"
-                        @click="'product-details/'+product.slug"
-
                     >
                         <v-card
+                            :to="'product-details/'+product.slug"
                             :elevation="hover ? 16 : 2"
 
                             class="mx-auto my-12"
@@ -77,7 +76,6 @@
                 </v-col>
             </v-row>
         </v-container>
-        <app-cart></app-cart>
     </v-app>
 </template>
 

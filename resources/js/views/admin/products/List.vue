@@ -67,15 +67,18 @@
                             </v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" >
-                            <v-file-input
-                                v-model="editedItem.image"
-                                accept="image/png, image/jpeg"
-                                placeholder="Pick a image for product"
-                                prepend-icon="mdi-camera"
-                                label="Image"
-                            ></v-file-input>
-                        </v-col>
 
+                            <input
+                                @change="imageChange"
+                                accept=".png, .jpg, .jpeg"
+                                type="file"/>
+
+                        </v-col>
+                            <v-col cols="12">
+                                <figure>
+                                    <img :src="image" class="img-mini" alt="">
+                            </figure>
+                            </v-col>
                         </v-row>
                     </v-container>
                     </v-card-text>
@@ -129,7 +132,7 @@
           {
             text: 'Name',
             align: 'start',
-            sortable: false,
+
             value: 'name',
           },
           { text: 'Slug', value: 'slug' },
@@ -162,8 +165,12 @@
             return this.$store.getters.products.data;
         },
         formTitle () {
-        return this.editedIndex === -1 ? 'New Product' : 'Edit Product'
-      },
+            return this.editedIndex === -1 ? 'New Product' : 'Edit Product'
+        },
+        image(){
+             return this.editedItem.image;
+         },
+
     },
     watch: {
       dialog (val) {
@@ -220,6 +227,17 @@
             console.log(error.response);
         });
       },
+      imageChange(e){
+          console.log(e.target.files[0])
+            var fileReader = new FileReader()
+
+            fileReader.readAsDataURL(e.target.files[0])
+
+            fileReader.onload = (e) => {
+                this.editedItem.image = e.target.result
+            }
+
+        },
     },
     mounted() {
         this.$store.dispatch('getProducts');
@@ -230,5 +248,9 @@
 .btn-wrapper {
     text-align: right;
     margin-bottom: 20px;
+}
+.img-mini{
+    width: 400px;
+    height: 400px;
 }
 </style>

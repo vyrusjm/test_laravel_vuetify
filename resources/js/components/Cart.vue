@@ -25,12 +25,23 @@
                                 <div class="col-md-3">
                                     <p>$ {{item.price}} USD</p>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <p>Qty: {{item.qty}}</p>
+                                </div>
+                                <div class="col-md-1">
+                                    <v-btn
+                                        @click="$store.commit('removeFromCart',item)"
+                                        icon
+                                        color="gray">
+                                        <v-icon left>mdi-delete-forever</v-icon>
+                                    </v-btn>
                                 </div>
                             </div>
                         </li>
                     </ul>
+                    <p>
+                        Total Price : {{ this.$store.getters.totalPrice }}
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>

@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Product extends Model
 {
+
     const PRODUCT_AVAILABLE = 'available';
     const PRODUCT_NOT_AVAILABLE = 'not available';
 
@@ -23,4 +25,5 @@ class Product extends Model
     {
         return $this->status == Product::PRODUCT_AVAILABLE;
     }
+
 }
