@@ -10,9 +10,7 @@
                         open-delay="200"
                     >
                         <v-card
-                            :to="'product-details/'+product.slug"
                             :elevation="hover ? 16 : 2"
-
                             class="mx-auto my-12"
                             max-width="374"
                         >
